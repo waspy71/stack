@@ -1,7 +1,6 @@
 import { useState } from "react"
 
 const Hello = ({ name, age }) => {  
-  console.log(name, age)
   const bornYear = () => new Date().getFullYear()- age
 
   return (    
@@ -24,8 +23,43 @@ const Button = ({ text,onClick }) => {
   )
 }
 
+const History = ({ allClicks, total}) => {
+  if (allClicks.length === 0) {
+    return (
+      <div>app is used by pressing the buttons</div>
+    )
+  }
+
+  return (
+    <div>
+      <p>button press history: {allClicks.join(' ')}</p>
+      <p>total is {total}</p>
+    </div>
+    
+  )
+}
+
 const App = () => {
   const [counter, setCouter] = useState(0)
+
+  const [left, setLeft] = useState(0)
+  const [right, setRight] = useState(0)
+  const [allClicks, setAll] = useState([])
+  const [total, setTotal] = useState(0)
+
+  const handleLeftClick = () => {
+    setAll(allClicks.concat('L'))
+    const updatedLeft = left + 1
+    setLeft(left + 1)
+    setTotal(updatedLeft + right)
+  }
+
+  const handleRighClick = () => {
+    setAll(allClicks.concat('R'))
+    const updatedRight = right + 1
+    setRight(right + 1)
+    setTotal(left + updatedRight)
+  }
 
   const name = 'Peter'
   const age = 10
@@ -44,6 +78,14 @@ const App = () => {
       <Button text='plus' onClick={increaseByOne}/>
       <Button text='zero' onClick={setToZero}/>
       <Button text='minus' onClick={decreaseByOne}/>
+      <br></br>
+      <hr></hr>
+      {left}
+      <Button text='left' onClick={handleLeftClick} />
+      <Button text='right' onClick={handleRighClick} />
+      {right}
+      <History allClicks={allClicks} total={total} />
+
     </>
   )
 }
