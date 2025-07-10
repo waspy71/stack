@@ -4,16 +4,32 @@ import { useState } from 'react'
 export const Button = ({ text, onClick }) =><button onClick={onClick}>{text}</button> 
 
 export const Statiscics = ({ good, neutral, bad, total }) => {
+  if( !total ) {
+    return <p>No feedback given</p>
+  }
   return (
     <div>
       <h2>Statiscics</h2>
-      <p>good: {good}</p>
-      <p>neutral: {neutral}</p>
-      <p>bad: {bad}</p>
-      <p>total: {total}</p>
-      <p>average: {total ? (good - bad) / total : '0'}</p>
-      <p>positive: {total ? (good /total * 100) : '0'} %</p>
+        <table>
+          <tbody>
+            <StatisticLine text='good' value={good} />
+            <StatisticLine text='neutral' value={neutral} />
+            <StatisticLine text='bad' value={bad} />
+            <StatisticLine text='total' value={total} />
+            <StatisticLine text='average' value={total ? (good - bad) / total : '0'} />
+            <StatisticLine text='positive' value={total ? (good /total * 100) + ' %' : '0 %'} />
+          </tbody>
+      </table>
     </div>
+  )
+}
+
+export const StatisticLine = ({ text, value }) => {
+  return (
+    <tr>
+      <td>{text}</td>
+      <td>{value}</td>
+    </tr>
   )
 }
 
