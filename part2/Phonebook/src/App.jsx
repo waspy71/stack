@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react'
+import personsService from './services/persons'
 import Filter from './components/FIlter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
-import personsService from './services/persons'
+import Notification from './components/Notification'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
+  const [message, setMessage] = useState(null)
 
   useEffect(() => {
     personsService
@@ -30,6 +32,24 @@ const App = () => {
           .update(newPerson.id,{...newPerson, number: newNumber})
           .then(updatedPerson => {
             setPersons(persons.map(p => p.id === updatedPerson.id ? updatedPerson : p))
+            setMessage({
+              text: `${newPerson.name} number successfully changed`,
+              type: 'info'
+            })
+            setTimeout(() => {
+              setMessage(null)
+            }, 5000)
+          })
+          .catch(error => {
+            console.log(error)
+            setPersons(persons.filter(p => p.id !== newPerson.id))
+            setMessage({
+              text: `Information of ${newPerson.name} has already been removed from server`,
+              type: 'error'
+            })
+            setTimeout(() => {
+              setMessage(null)
+            }, 5000)
           })
       }
       setNewName('')
@@ -44,6 +64,13 @@ const App = () => {
         .create(newPersonObject)
         .then(returnedPerson => {
           setPersons(persons.concat(returnedPerson))
+          setMessage({
+            text: `Added ${returnedPerson.name}`,
+            type: 'info'
+          })
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
         })
         
       setNewName('')
@@ -80,6 +107,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message} />
       <Filter handleFilter={handleFilter} filter={filter}/>
       <h2>Add new</h2>
       <PersonForm 
