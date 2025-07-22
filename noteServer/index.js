@@ -3,6 +3,21 @@
 const express = require('express')
 const app = express()
 
+const requestLogger = (request, response, next) => {
+  console.log('Method:', request.method)
+  console.log('Path:  ', request.path)
+  console.log('Body:  ', request.body)
+  console.log('---')
+  next()
+}
+
+app.use(requestLogger)
+
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+}
+
+
 app.use(express.json())
 
 let notes =  [
@@ -35,10 +50,10 @@ app.get('/api/notes/:id', (request, response) => {
   const id = request.params.id
   const note = notes.find(n => n.id === id)
 
-  if(note) {
-    response.json(note)
-  } else {
+  if(!note) {
     response.status(404).end()
+  } else {
+    response.json(note)
   }
 })
 
@@ -64,7 +79,7 @@ app.post('/api/notes', (request, response) => {
     id: generateId(),
   }
 
-  
+
   notes = notes.concat(note)
 
   response.json(note)
@@ -77,6 +92,7 @@ app.delete('/api/notes/:id', (request, response) => {
   response.status(204).end()
 })
 
+app.use(unknownEndpoint)
 
 
 
