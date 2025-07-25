@@ -13,3 +13,20 @@ Content-Type: application/json
   "name": "Steve",
   "number": "123-123-123"
 }
+
+
+//production
+###
+GET https://part3-little-meadow-9290.fly.dev/api/persons
+
+###
+POST https://part3-little-meadow-9290.fly.dev/api/persons
+Content-Type: application/json
+
+{
+  "name": "Steve",
+  "number": "123-123-123"
+}
+
+###
+DELETE https://part3-little-meadow-9290.fly.dev/api/persons/8096
