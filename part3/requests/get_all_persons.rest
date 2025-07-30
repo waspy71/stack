@@ -3,7 +3,7 @@ GET http://localhost:3001/api/persons/
 
 ###
 
-DELETE http://localhost:3001/api/persons/2
+DELETE http://localhost:3001/api/persons/
 
 ###
 POST http://localhost:3001/api/persons
@@ -12,6 +12,15 @@ Content-Type: application/json
 {
   "name": "Steve",
   "number": "123-123-123"
+}
+
+###
+PUT http://localhost:3001/api/persons/6888eca737cccff0290bb804
+Content-Type: application/json
+
+{
+  "name": "Steve",
+  "number": "321-321-321"
 }
 
 
@@ -29,4 +38,14 @@ Content-Type: application/json
 }
 
 ###
-DELETE https://part3-little-meadow-9290.fly.dev/api/persons/8096
+
+PUT https://part3-little-meadow-9290.fly.dev/api/persons
+Content-Type: application/json
+
+{
+  "name": "Steve",
+  "number": "321-321-321"
+}
+
+###
+DELETE https://part3-little-meadow-9290.fly.dev/api/persons/4576
