@@ -25,7 +25,6 @@ const App = () => {
     console.log('newName', newName);
     
     const newPerson = persons.find(p => p.name.toLowerCase() === newName.toLocaleLowerCase())
-    console.log('newPerson', newPerson, persons)
     if(newPerson) {
       if(window.confirm(`${newPerson.name} is already added to the phonebook, replace the old number?`)) {
         personsService
@@ -42,14 +41,24 @@ const App = () => {
           })
           .catch(error => {
             console.log(error)
-            setPersons(persons.filter(p => p.id !== newPerson.id))
-            setMessage({
-              text: `Information of ${newPerson.name} has already been removed from server`,
-              type: 'error'
-            })
-            setTimeout(() => {
-              setMessage(null)
-            }, 5000)
+            if(error.status === 404) {
+              setPersons(persons.filter(p => p.id !== newPerson.id))
+              setMessage({
+                text: `Information of ${newPerson.name} has already been removed from server`,
+                type: 'error'
+              })
+              setTimeout(() => {
+                setMessage(null)
+              }, 5000)
+            } else if (error.status === 400) {
+              setMessage({
+                text: error.response.data.error,
+                type: 'error'
+              })
+              setTimeout(() => {
+                setMessage(null)
+              }, 5000)
+            }
           })
       }
       setNewName('')
@@ -67,6 +76,15 @@ const App = () => {
           setMessage({
             text: `Added ${returnedPerson.name}`,
             type: 'info'
+          })
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
+        })
+        .catch(error => {
+          setMessage({
+            text: error.response.data.error,
+            type: 'error'
           })
           setTimeout(() => {
             setMessage(null)
