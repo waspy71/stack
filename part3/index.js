@@ -32,13 +32,13 @@ app.use(express.static('dist'))
 
 app.get('/info', (request, response) => {
   const date = Date()
-  
+
   Person.find({})
-  .then(persons => {
-    response.send(`
-      <p>Phone book has info for ${persons.length} people</p>
-      <p>${date}</p>
-      `)
+    .then(persons => {
+      response.send(`
+        <p>Phone book has info for ${persons.length} people</p>
+        <p>${date}</p>
+        `)
     })
 })
 
@@ -77,7 +77,7 @@ app.post('/api/persons', (request, response, next) => {
 
 app.delete('/api/persons/:id', (request, response, next) => {
   Person.findByIdAndDelete(request.params.id)
-    .then(result => {
+    .then(() => {
       response.json(204).end()
     })
     .catch(error => next(error))
@@ -89,15 +89,16 @@ app.put('/api/persons/:id', (request, response, next) => {
   Person.findByIdAndUpdate(
     request.params.id,
     { name, number },
-    { runValidators: true}
-  ).then(updatedPerson => {
-    if(!updatedPerson) {
-      return response.status(404).end()
-    }
+    { runValidators: true }
+  )
+    .then(updatedPerson => {
+      if(!updatedPerson) {
+        return response.status(404).end()
+      }
 
-  response.json(updatedPerson)
-  })
-  .catch(error => next(error))
+      response.json(updatedPerson)
+    })
+    .catch(error => next(error))
 
 })
 
