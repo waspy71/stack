@@ -22,7 +22,7 @@ const errorHandler = (error, request, response, next) => {
   console.error(error.message)
 
   if(error.name === 'CastError') {
-    return response.status(400).send({ error: 'Malformed ID'})
+    return response.status(400).send({ error: 'Malformed ID' })
   } else if(error.name === 'ValidationError') {
     return response.status(400).json({ error: error.message })
   }
@@ -53,8 +53,8 @@ app.get('/api/notes/:id', (request, response, next) => {
       } else {
         response.status(404).end()
       }
-  })
-  .catch(error => next(error))
+    })
+    .catch(error => next(error))
 })
 
 app.post('/api/notes', (request, response, next) => {
@@ -73,12 +73,8 @@ app.post('/api/notes', (request, response, next) => {
 })
 
 app.delete('/api/notes/:id', (request, response, next) => {
-  // const id = request.params.id
-  // notes = notes.filter(n => n.id !== id)
-
-  // response.status(204).end()
   Note.findByIdAndDelete(request.params.id)
-    .then(result => {
+    .then(() => {
       response.status(204).end()
     })
     .catch(error => next(error))
@@ -109,7 +105,7 @@ app.use(errorHandler)
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`)
 })
 
 
