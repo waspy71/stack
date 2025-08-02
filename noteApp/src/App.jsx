@@ -23,9 +23,6 @@ const App = () => {
       })
   },[])
 
-  console.log('render', notes.length, 'notes')
-
-
   const addNote = (event) => {
     event.preventDefault()
     const noteObject = {
@@ -43,7 +40,6 @@ const App = () => {
   }
 
   const handleNoteChange = (event) => {
-    console.log(event.target.value)
     setNewNote(event.target.value)
   }
 
