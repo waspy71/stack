@@ -85,6 +85,38 @@ test('missing title or url returns 400 Bad Request', async () => {
 
 })
 
+test('deletion of a blog returns status code 204', async () => {
+  const blogsAtStart = await helper.blogsInDb()
+  const blogToDelete = blogsAtStart[0]
+
+  await api.delete(`/api/blogs/${blogToDelete.id}`).expect(204)
+
+  const blogsAtEnd = await helper.blogsInDb()
+
+  const titles = blogsAtEnd.map(b => b.title)
+  assert(!titles.includes(blogToDelete.title))
+
+  assert.strictEqual(blogsAtStart.length - 1, blogsAtEnd.length)
+})
+
+test('correctly updates a blog', async () => {
+  const blogsAtStart = await helper.blogsInDb()
+  const blogToUpdate = blogsAtStart[0]
+
+  const newBlog = {
+    likes: 10
+  }
+
+  const updatedBlog = await api
+    .put(`/api/blogs/${blogToUpdate.id}`)
+    .send(newBlog)
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+  assert.strictEqual(updatedBlog.body.likes, newBlog.likes)
+
+})
+
 
 after(async () => {
   await mongoose.connection.close()
