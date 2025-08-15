@@ -47,7 +47,7 @@ describe('when creating users', () => {
       assert(!usernames.includes(user.username))
     })
 
-    test('usernmae is missing', async () => {
+    test('username is missing', async () => {
       const usersAtStart = await helper.usersInDb()
       const user = {
         name: 'Ed',
@@ -62,9 +62,6 @@ describe('when creating users', () => {
 
       const usersAtEnd = await helper.usersInDb()
       assert.strictEqual(usersAtStart.length, usersAtEnd.length)
-
-      const usernames = usersAtEnd.map(user => user.username)
-      assert(!usernames.includes(user.username))
     })
 
     test('username is already in database', async () => {
@@ -88,6 +85,43 @@ describe('when creating users', () => {
       assert.strictEqual(usernames.length, 1)
     })
 
+  
+    test('if password is missing', async () => {
+      const usersAtStart = await helper.usersInDb()
+
+      const user = {
+        username: 'Eddy',
+        name: 'Ed',
+      }
+  
+      await api
+        .post('/api/users')
+        .send(user)
+        .expect(401)
+        .expect('Content-Type', /application\/json/)
+  
+      const usersAtEnd = await helper.usersInDb()
+      assert.strictEqual(usersAtStart.length, usersAtEnd.length)
+    })
+
+    test('password is less than 3 characters', async () => {
+      const usersAtStart = await helper.usersInDb()
+
+      const user = {
+        username: 'Eddy',
+        name: 'Ed',
+        password: 'pa'
+      }
+  
+      await api
+        .post('/api/users')
+        .send(user)
+        .expect(401)
+        .expect('Content-Type', /application\/json/)
+  
+      const usersAtEnd = await helper.usersInDb()
+      assert.strictEqual(usersAtStart.length, usersAtEnd.length)
+    })
   })
 })
 
