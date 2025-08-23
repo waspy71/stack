@@ -5,6 +5,7 @@ import noteService from './services/notes'
 import Note from './components/Note'
 import Notification from './components/Notification'
 import Footer from './components/Footer'
+import loginService from './services/login'
 
 
 
@@ -16,6 +17,7 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState('some error happened...')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [user, setUser] = useState(null)
 
   useEffect(() => {
     noteService
@@ -69,10 +71,57 @@ const App = () => {
       })
   }
 
-  const handleLogin = (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault()
-    console.log('logging in with ', username, password)
+
+    try {
+      const user = await loginService.login({ username, password })
+      setUser(user)
+      setUsername('')
+      setPassword('')
+    } catch {
+      setErrorMessage('wrong credentials')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+    }
   }
+
+  const loginForm = () => (
+    <form onSubmit={handleLogin}>
+      <div>
+        <label>
+          username
+          <input
+            type='text'
+            value={username}
+            onChange={({ target }) => setUsername(target.value)}
+          />
+        </label>
+      </div>
+      <div>
+        <label>
+          password
+          <input
+            type='text'
+            value={password}
+            onChange={({ target }) => setPassword(target.value)}
+          />
+        </label>
+        <button type='submit'>login</button>
+      </div>
+    </form>
+  )
+
+  const noteForm = () => (
+    <form onSubmit={addNote}>
+      <input
+        value={newNote}
+        onChange={handleNoteChange}
+      />
+      <button type="submit">save</button>
+    </form>
+  )
 
   const notesToShow = showAll
     ? notes
@@ -84,30 +133,14 @@ const App = () => {
       <h1>Notes</h1>
       <Notification message={errorMessage} />
 
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
+      {!user && loginForm()}
+      {user && (
         <div>
-          <label>
-            username
-            <input
-              type='text'
-              value={username}
-              onChange={({ target }) => setUsername(target.value)}
-            />
-          </label>
+          <p>{user.name} logged in</p>
+          {noteForm()}
         </div>
-        <div>
-          <label>
-            password
-            <input
-              type='text'
-              value={password}
-              onChange={({ target }) => setPassword(target.value)}
-            />
-          </label>
-          <button type='submit'>login</button>
-        </div>
-      </form>
+      )}
+
       <div>
         <button onClick={() => setShowAll(!showAll)}>
           show {showAll ? 'important' : 'all'}
@@ -122,13 +155,7 @@ const App = () => {
           />
         )}
       </ul>
-      <form onSubmit={addNote}>
-        <input
-          value={newNote}
-          onChange={handleNoteChange}
-        />
-        <button type="submit">save</button>
-      </form>
+
       <Footer />
     </div>
   )
