@@ -69,6 +69,7 @@ blogsRouter.put('/:id', userExtractor, async (request, response) => {
     },
     { new: true, runValidators: true }
   )
+  .populate('user', { username: 1, name: 1, id: 1 })
   
   if(!updatedBlog) {
     return response.status(404).end()
