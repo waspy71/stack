@@ -31,7 +31,6 @@ const BlogForm = ({ blogs, setBlogs, notifyWith, blogFormRef }) => {
       blogFormRef.current.toggleVisibiliy()
       clearFields()
     } catch(err) {
-      console.log(err)
       notifyWith(err.response.data.error)
       clearFields()
     }
