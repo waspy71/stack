@@ -1,5 +1,5 @@
 
-import { screen, render } from "@testing-library/react";
+import { screen, render } from '@testing-library/react'
 import Blog from './Blog'
 import userEvent from '@testing-library/user-event'
 
@@ -21,7 +21,7 @@ describe('<Blog />', () => {
     username: 'testUsername',
     name: 'testName'
   }
-  
+
   test('displays only Title and Author by default', () => {
 
     render(<Blog blog={blog} user={user} />)
@@ -41,13 +41,13 @@ describe('<Blog />', () => {
     const user = userEvent.setup()
 
     render(<Blog blog={blog} user={user} />)
-    
+
     const showButton = screen.getByText('view')
     await user.click(showButton)
 
     const url = screen.queryByText('testUrl.com')
     const likes = screen.queryByText('likes 5')
-  
+
     expect(url).not.toBeNull()
     expect(likes).not.toBeNull()
     expect(url).toBeDefined()
