@@ -44,32 +44,32 @@ const BlogForm = ({ blogs, setBlogs, notifyWith, blogFormRef }) => {
         <div>
           <label>
             title
+            <input
+              type='text'
+              value={title}
+              onChange={({ target }) => setTitle(target.value)}
+            />
           </label>
-          <input
-            type='text'
-            value={title}
-            onChange={({ target }) => setTitle(target.value)}
-          />
         </div>
         <div>
           <label>
             author
+            <input
+              type='text'
+              value={author}
+              onChange={({ target }) => setAuthor(target.value)}
+            />
           </label>
-          <input
-            type='text'
-            value={author}
-            onChange={({ target }) => setAuthor(target.value)}
-          />
         </div>
         <div>
           <label>
             url
+            <input
+              type='text'
+              value={url}
+              onChange={({ target }) => setUrl(target.value)}
+            />
           </label>
-          <input
-            type='text'
-            value={url}
-            onChange={({ target }) => setUrl(target.value)}
-          />
         </div>
         <button type='submit'>create</button>
       </form>

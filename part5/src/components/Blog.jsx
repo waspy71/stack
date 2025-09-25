@@ -18,7 +18,7 @@ const Blog = ({ blog, user, handleLikes, handleDelete }) => {
   }
 
   return (
-    <div style={blogStyle}>
+    <div style={blogStyle} className='blog'>
       {visible
         ? (
           <div>
