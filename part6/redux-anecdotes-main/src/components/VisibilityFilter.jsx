@@ -6,7 +6,6 @@ const VisibilityFilter = () => {
   const dispatch = useDispatch()
 
   const handleChange = (event) => {
-    // input-field value is in variable event.target.value
     const filterText = event.target.value
     dispatch(setFilter(filterText))
     
