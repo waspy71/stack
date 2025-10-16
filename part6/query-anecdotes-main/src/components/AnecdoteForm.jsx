@@ -22,7 +22,16 @@ const AnecdoteForm = () => {
           type: 'RESET'
         })
       }, 5000);
-    } 
+    },
+    onError: (error) => {
+      notificationDispatch({ type: 'SET', payload: error.response.data.error })
+      
+      setTimeout(() => {
+        notificationDispatch({
+          type: 'RESET'
+        })
+      }, 5000);
+    }
   })
 
   const onCreate = (event) => {
