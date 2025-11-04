@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Routes, Route, Link, useMatch, useNavigate } from 'react-router-dom'
 import { useField } from './hooks'
-import { Navbar, Nav } from 'react-bootstrap' 
+import { Navbar, Nav, Form, Button } from 'react-bootstrap' 
 
 const Menu = () => {
   const padding = {
@@ -71,7 +71,7 @@ const About = () => (
 )
 
 const Footer = () => (
-  <div>
+  <div className='mx-auto' style={{width: '80%', marginTop: '30px'}}>
     Anecdote app for <a href='https://fullstackopen.com/'>Full Stack Open</a>.
 
     See <a href='https://github.com/fullstack-hy2020/routed-anecdotes/blob/master/src/App.js'>https://github.com/fullstack-hy2020/routed-anecdotes/blob/master/src/App.js</a> for the source code.
@@ -102,22 +102,18 @@ const CreateNew = (props) => {
   return (
     <div>
       <h2>create a new anecdote</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          content
-          <input name='content' {...content.field} />
-        </div>
-        <div>
-          author
-          <input name='author' {...author.field} />
-        </div>
-        <div>
-          url for more info
-          <input name='info' {...info.field} />
-        </div>
-        <button>create</button>
-      </form>
-      <button onClick={() => handleReset()}>reset</button>
+      <Form onSubmit={handleSubmit}>
+        <Form.Group className='w-25'>
+          <Form.Label>content</Form.Label>
+          <Form.Control name='content' {...content.field}/>
+          <Form.Label>author</Form.Label>
+          <Form.Control name='author' {...author.field}/>
+          <Form.Label>url for more info</Form.Label>
+          <Form.Control name='info' {...info.field}/>
+        </Form.Group>
+        <Button className='my-1' variant='primary' type='submit'>create</Button>
+      </Form>
+      <Button className='my-1' variant='primary' onClick={() => handleReset()}>reset</Button>
     </div>
   )
 }
