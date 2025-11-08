@@ -1,0 +1,10 @@
+
+node_modules
+build
+package.json
+package-lock.json
+.gitignore
+.prettierrc
+.eslintignore
+.gitignore
+eslint.config.js
