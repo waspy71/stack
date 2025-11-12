@@ -1,17 +1,20 @@
 import './index.css'
 import { useState, useEffect, useRef } from 'react'
+import { useDispatch } from 'react-redux'
 import BlogList from './components/BlogList'
 import blogService from './services/blogs'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
+import { setNotification } from './reducers/notificationReducer'
 
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
-  const [info, setInfo] = useState(null)
+
+  const dispatch = useDispatch()
 
   const blogFormRef = useRef()
 
@@ -20,13 +23,6 @@ const App = () => {
       setBlogs(blogs)
     )
   }, [])
-
-  const notifyWith = (text, type='error') => {
-    setInfo({ text, type })
-    setTimeout(() => {
-      setInfo(null)
-    }, 5000)
-  }
 
   const handleLikes = async (blog) => {
     try {
@@ -42,9 +38,9 @@ const App = () => {
       )
 
       setBlogs(blogs.map(b => b.id === blog.id ? updatedBlog : b))
-      notifyWith(`You liked ${blog.title}`, 'info')
+      dispatch(setNotification(`You liked ${blog.title}`, 'info'))
     } catch (err) {
-      notifyWith(err.response.data.error)
+      dispatch(setNotification(err.response.data.error))
     }
   }
 
@@ -53,23 +49,23 @@ const App = () => {
       if(window.confirm(`Remove blog '${blog.title}' by '${blog.author}'?`)) {
         await blogService.remove(blog.id)
         setBlogs(blogs.filter(b => b.id !== blog.id))
-        notifyWith(`'${blog.title}' has been removed`, 'info')
+        dispatch(setNotification(`'${blog.title}' has been removed`, 'info'))
       }
     } catch (err) {
-      notifyWith(err.response.data.error)
+      dispatch(setNotification(err.response.data.error))
     }
   }
 
   const handleLogOut = () => {
     window.localStorage.removeItem('loggedBlogappUser')
     setUser('')
-    notifyWith('Successfully logged out', 'info')
+    dispatch(setNotification('Successfully logged out', 'info'))
   }
 
   return (
     <div>
-      <Notification info={info} />
-      {!user && <LoginForm setUser={setUser} notifyWith={notifyWith} />}
+      <Notification />
+      {!user && <LoginForm setUser={setUser} />}
       {user && (
         <div>
           <p>
@@ -80,7 +76,6 @@ const App = () => {
             <BlogForm
               blogs={blogs}
               setBlogs={setBlogs}
-              notifyWith={notifyWith}
               blogFormRef={blogFormRef}
             />
           </Togglable>
