@@ -1,5 +1,5 @@
 import './index.css'
-import { useState, useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import BlogList from './components/BlogList'
 import LoginForm from './components/LoginForm'
@@ -8,11 +8,12 @@ import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import { setNotification } from './reducers/notificationReducer'
 import { likeBlog, removeBlog, setBackendBlogs } from './reducers/blogsReducer'
+import { logOutUser } from './reducers/userReducer'
 
 
 const App = () => {
   const blogs = useSelector(({ blogs }) => blogs)
-  const [user, setUser] = useState(null)
+  const user = useSelector(({ user }) => user)
 
   const dispatch = useDispatch()
 
@@ -32,14 +33,14 @@ const App = () => {
 
   const handleLogOut = () => {
     window.localStorage.removeItem('loggedBlogappUser')
-    setUser('')
+    dispatch(logOutUser())
     dispatch(setNotification('Successfully logged out', 'info'))
   }
 
   return (
     <div>
       <Notification />
-      {!user && <LoginForm setUser={setUser} />}
+      {!user && <LoginForm />}
       {user && (
         <div>
           <p>
