@@ -6,13 +6,16 @@ import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
+import Navigation from './components/Navigation'
+import Users from './components/Users'
 import { setNotification } from './reducers/notificationReducer'
 import { likeBlog, removeBlog, setBackendBlogs } from './reducers/blogsReducer'
 import { logOutUser } from './reducers/userReducer'
+import { Routes, Route } from 'react-router-dom'
 
 
 const App = () => {
-  const blogs = useSelector(({ blogs }) => blogs)
+  // const blogs = useSelector(({ blogs }) => blogs)
   const user = useSelector(({ user }) => user)
 
   const dispatch = useDispatch()
@@ -47,17 +50,24 @@ const App = () => {
             {user.name} logged in
             <button onClick={() => handleLogOut()}>logout</button>
           </p>
+          <Navigation />
+          <Routes>
+            <Route path='/' element={
+              <BlogList
+                user={user}
+                handleLikes={handleLikes}
+                handleDelete={handleDelete}
+              /> }
+            />
+            <Route path='/users' element={<Users />} />
+          </Routes>
+
           <Togglable buttonLabel='create new blog' ref={blogFormRef} >
             <BlogForm
               blogFormRef={blogFormRef}
             />
           </Togglable>
-          <BlogList
-            blogs={blogs}
-            user={user}
-            handleLikes={handleLikes}
-            handleDelete={handleDelete}
-          />
+
         </div>
       )}
     </div>
