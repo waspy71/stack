@@ -3,12 +3,14 @@
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { logUser, setUser } from '../reducers/userReducer'
+import { useNavigate } from 'react-router-dom'
 
 const LoginForm = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   useEffect(() => {
     const loggedBlogappUser = window.localStorage.getItem('loggedBlogappUser')
@@ -25,6 +27,7 @@ const LoginForm = () => {
 
     setUsername('')
     setPassword('')
+    navigate('/')
   }
 
   return (

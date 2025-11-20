@@ -8,6 +8,7 @@ import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import Navigation from './components/Navigation'
 import Users from './components/Users'
+import User from './components/User'
 import { setNotification } from './reducers/notificationReducer'
 import { likeBlog, removeBlog, setBackendBlogs } from './reducers/blogsReducer'
 import { logOutUser } from './reducers/userReducer'
@@ -15,7 +16,6 @@ import { Routes, Route } from 'react-router-dom'
 
 
 const App = () => {
-  // const blogs = useSelector(({ blogs }) => blogs)
   const user = useSelector(({ user }) => user)
 
   const dispatch = useDispatch()
@@ -46,6 +46,7 @@ const App = () => {
       {!user && <LoginForm />}
       {user && (
         <div>
+          <h2><strong>BlogApp</strong></h2>
           <p>
             {user.name} logged in
             <button onClick={() => handleLogOut()}>logout</button>
@@ -60,6 +61,7 @@ const App = () => {
               /> }
             />
             <Route path='/users' element={<Users />} />
+            <Route path='/users/:id' element={<User />} />
           </Routes>
 
           <Togglable buttonLabel='create new blog' ref={blogFormRef} >
