@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 const Blog = ({ blog, user, handleLikes, handleDelete }) => {
   const [visible, setVisible] = useState(true)
@@ -22,12 +23,18 @@ const Blog = ({ blog, user, handleLikes, handleDelete }) => {
       {visible
         ? (
           <div>
-            {blog.title} - {blog.author} <button onClick={toggleVisibiliy}>view</button>
+            <Link to={`/blogs/${blog.id}`} >
+              {blog.title} - {blog.author}
+            </Link>
+            <button onClick={toggleVisibiliy}>view</button>
           </div>)
         : (
           <div>
             <div>
-              {blog.title} - {blog.author} <button onClick={toggleVisibiliy}>hide</button>
+              <Link to={`/blogs/${blog.id}`} >
+                {blog.title} - {blog.author}
+              </Link>
+              <button onClick={toggleVisibiliy}>hide</button>
             </div>
             <div>
               {blog.url}

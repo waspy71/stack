@@ -9,14 +9,17 @@ import Togglable from './components/Togglable'
 import Navigation from './components/Navigation'
 import Users from './components/Users'
 import User from './components/User'
+import BlogDetail from './components/BlogDetail'
 import { setNotification } from './reducers/notificationReducer'
 import { likeBlog, removeBlog, setBackendBlogs } from './reducers/blogsReducer'
 import { logOutUser } from './reducers/userReducer'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useNavigate } from 'react-router-dom'
 
 
 const App = () => {
   const user = useSelector(({ user }) => user)
+
+  const navigate = useNavigate()
 
   const dispatch = useDispatch()
 
@@ -32,6 +35,7 @@ const App = () => {
 
   const handleDelete = async (blog) => {
     dispatch(removeBlog(blog))
+    navigate('/')
   }
 
   const handleLogOut = () => {
@@ -60,6 +64,20 @@ const App = () => {
                 handleDelete={handleDelete}
               /> }
             />
+            <Route path='blogs' element={
+              <BlogList
+                user={user}
+                handleLikes={handleLikes}
+                handleDelete={handleDelete}
+              />
+            } />
+            <Route path='/blogs/:id' element={
+              <BlogDetail
+                user={user}
+                handleLikes={handleLikes}
+                handleDelete={handleDelete}
+              />
+            } />
             <Route path='/users' element={<Users />} />
             <Route path='/users/:id' element={<User />} />
           </Routes>
