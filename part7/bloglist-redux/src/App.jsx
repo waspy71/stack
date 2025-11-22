@@ -69,25 +69,25 @@ const App = () => {
                 user={user}
                 handleLikes={handleLikes}
                 handleDelete={handleDelete}
-              />
-            } />
+              />}
+            />
             <Route path='/blogs/:id' element={
               <BlogDetail
                 user={user}
                 handleLikes={handleLikes}
                 handleDelete={handleDelete}
-              />
-            } />
+              />}
+            />
             <Route path='/users' element={<Users />} />
             <Route path='/users/:id' element={<User />} />
-          </Routes>
-
-          <Togglable buttonLabel='create new blog' ref={blogFormRef} >
-            <BlogForm
-              blogFormRef={blogFormRef}
+            <Route path='/create' element={
+              <Togglable buttonLabel='create new blog' ref={blogFormRef} >
+                <BlogForm
+                  blogFormRef={blogFormRef}
+                />
+              </Togglable> }
             />
-          </Togglable>
-
+          </Routes>
         </div>
       )}
     </div>

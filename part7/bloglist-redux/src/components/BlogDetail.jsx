@@ -5,6 +5,10 @@ const BlogDetail = ({ user, handleDelete, handleLikes }) => {
   const id = useParams().id
   const blog = useSelector(({ blogs }) => blogs.find((b) => b.id === id))
 
+  if(!user || !blog) {
+    return null
+  }
+
   const canRemove = user.username === blog.user.username
 
   return (
