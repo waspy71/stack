@@ -13,17 +13,26 @@ const BlogDetail = ({ user, handleDelete, handleLikes }) => {
 
   return (
     <div>
-      <h2>
-        {blog.title} by {blog.author}
-      </h2>
-      <div>{blog.url}</div>
       <div>
-        likes {blog.likes} <button onClick={() => handleLikes(blog)}>like</button>
+        <h2>
+          {blog.title} by {blog.author}
+        </h2>
+        <div>{blog.url}</div>
+        <div>
+          likes {blog.likes} <button onClick={() => handleLikes(blog)}>like</button>
+        </div>
+        <div>
+          {blog.user.name}
+        </div>
+        {canRemove && <button onClick={() => handleDelete(blog)}>delete</button>}
       </div>
       <div>
-        {blog.user.name}
+        <h3>Comments</h3>
+        <ul>
+          <li>Test comment 1</li>
+          <li>Test comment 2</li>
+        </ul>
       </div>
-      {canRemove && <button onClick={() => handleDelete(blog)}>delete</button>}
     </div>
   )
 }
