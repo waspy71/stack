@@ -28,10 +28,9 @@ const BlogDetail = ({ user, handleDelete, handleLikes }) => {
       </div>
       <div>
         <h3>Comments</h3>
-        <ul>
-          <li>Test comment 1</li>
-          <li>Test comment 2</li>
-        </ul>
+        {blog.comments && <ul>
+          {blog.comments.map(c => <li>{c}</li>)}
+        </ul>}
       </div>
     </div>
   )
