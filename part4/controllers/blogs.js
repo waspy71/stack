@@ -79,15 +79,19 @@ blogsRouter.put('/:id', userExtractor, async (request, response) => {
   response.json(updatedBlog)
 })
 
-blogsRouter.post(':id/comments', async (request, response) => {
+blogsRouter.post('/:id/comments', async (request, response) => {
   const id = request.params.id
-
-  const { commment } = request.body
-
+  
+  const { comment } = request.body
+  if(!comment) {
+    return response.status(400).json({ error: 'comment too short, needs at least 1 character'})
+  } 
+  
   // we dont need to use 'findAndUpdate; for 'comments' field to be created since after changing Blog Schema and executing code below once
   // mongoDB automatically 'adds' an empty 'comments' array to every Blog Object
   const blog = await Blog.findById(id)
-  blog.commments = blog.commments.concat(commment)
+  console.log('blog here', blog)
+  blog.comments = blog.comments.concat(comment)
   await blog.save()
 
   response.json(blog)
