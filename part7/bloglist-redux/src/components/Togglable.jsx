@@ -1,5 +1,6 @@
 
 import { useState, useImperativeHandle } from 'react'
+import { Button } from 'react-bootstrap'
 
 const Togglable = ( props ) => {
   const [visible, setVisible] = useState(false)
@@ -18,11 +19,11 @@ const Togglable = ( props ) => {
   return (
     <div>
       <div style={hideWhenVisible}>
-        <button  onClick={toggleVisibiliy}>{props.buttonLabel}</button>
+        <Button className='my-2' variant='primary' onClick={toggleVisibiliy}>{props.buttonLabel}</Button>
       </div>
       <div style={showWhenVisible}>
         {props.children}
-        <button onClick={toggleVisibiliy}>cancel</button>
+        <Button className='my-2' variant='primary' onClick={toggleVisibiliy}>cancel</Button>
       </div>
     </div>
   )
