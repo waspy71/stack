@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { logUser, setUser } from '../reducers/userReducer'
 import { useNavigate } from 'react-router-dom'
-import { Form, Button } from 'react-bootstrap'
+import { Form, Button, Container, Row, Col } from 'react-bootstrap'
 
 const LoginForm = () => {
   const [username, setUsername] = useState('')
@@ -32,16 +32,22 @@ const LoginForm = () => {
   }
 
   return (
-    <Form onSubmit={handleLogin}>
-      <h2>Log in to application</h2>
-      <Form.Group className='w-25'>
-        <Form.Label>Username</Form.Label>
-        <Form.Control type='text' value={username} onChange={({ target }) => setUsername(target.value)} />
-        <Form.Label>Password</Form.Label>
-        <Form.Control type='text' value={password} onChange={({ target }) => setPassword(target.value)} />
-        <Button className='my-2' variant='primary' type='submit'>login</Button>
-      </Form.Group>
-    </Form>
+    <Container className='vh-100 d-flex align-items-center justify-content-center'>
+      <Row className='w-100 justify-content-center'>
+        <Col xs={12} md={6} lg={3}>
+          <Form onSubmit={handleLogin}>
+            <Form.Group>
+              <h2 className='text-center'>Log in to application</h2>
+              <Form.Label>Username</Form.Label>
+              <Form.Control type='text' value={username} onChange={({ target }) => setUsername(target.value)} />
+              <Form.Label>Password</Form.Label>
+              <Form.Control type='text' value={password} onChange={({ target }) => setPassword(target.value)} />
+              <Button className='my-2' variant='primary' type='submit'>login</Button>
+            </Form.Group>
+          </Form>
+        </Col>
+      </Row>
+    </Container>
   )
 }
 
