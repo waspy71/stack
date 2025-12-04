@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { Button } from 'react-bootstrap'
 
 const Blog = ({ blog, user, handleLikes, handleDelete }) => {
   const [visible, setVisible] = useState(true)
@@ -11,41 +12,42 @@ const Blog = ({ blog, user, handleLikes, handleDelete }) => {
   }
 
   const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
+    padding: 5,
     border: 'solid',
     borderWidth: 1,
-    marginBottom: 5
+    marginBottom: 5,
+    borderRadius: 5
   }
 
   return (
     <div style={blogStyle} className='blog'>
       {visible
         ? (
-          <div>
-            <Link to={`/blogs/${blog.id}`} >
+          <div className='d-felx align-items-center'>
+            <Link to={`/blogs/${blog.id}`} className='me-3' >
               {blog.title} - {blog.author}
             </Link>
-            <button onClick={toggleVisibiliy}>view</button>
+            <Button variant='info' onClick={toggleVisibiliy}>view</Button>
           </div>)
         : (
           <div>
             <div>
-              <Link to={`/blogs/${blog.id}`} >
-                {blog.title} - {blog.author}
-              </Link>
-              <button onClick={toggleVisibiliy}>hide</button>
+              <div className='d-flex align-items-center'>
+                <span className='me-3'> {blog.title} - {blog.author}</span>
+                <Button variant='info' onClick={toggleVisibiliy}>hide</Button>
+              </div>
             </div>
-            <div>
+            <div className='mb-2'>
               <a href={`https://${blog.url}`}>{blog.url}</a>
             </div>
-            <div>
-              likes {blog.likes} <button onClick={() => handleLikes(blog)}>like</button>
+            <div className='d-felx align-items-center'>
+              <span className='me-3'>likes {blog.likes}</span>
+              <Button variant='success' onClick={() => handleLikes(blog)}>like</Button>
             </div>
             <div>
               {blog.user.name}
             </div>
-            {canRemove && <button onClick={() => handleDelete(blog)}>delete</button>}
+            {canRemove && <Button variant='danger' className='my-1' onClick={() => handleDelete(blog)}>delete</Button>}
           </div>)
       }
     </div>

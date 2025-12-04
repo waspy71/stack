@@ -14,7 +14,7 @@ import { setNotification } from './reducers/notificationReducer'
 import { likeBlog, removeBlog, setBackendBlogs } from './reducers/blogsReducer'
 import { logOutUser } from './reducers/userReducer'
 import { Routes, Route, useNavigate } from 'react-router-dom'
-import { Container, Row, Col } from 'react-bootstrap'
+import { Container, Row, Col, Button } from 'react-bootstrap'
 
 
 const App = () => {
@@ -55,8 +55,8 @@ const App = () => {
             <div>
               <h2><strong>BlogApp</strong></h2>
               <p>
-                {user.name} logged in
-                <button onClick={() => handleLogOut()}>logout</button>
+                {user.name} logged in {' '}
+                <Button variant='primary' onClick={() => handleLogOut()}>logout</Button>
               </p>
               <Navigation />
               <Routes>
